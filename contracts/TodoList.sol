@@ -33,9 +33,11 @@ contract TodoList {
     }
 
     function toggleCompleted(uint _id) public {
+        string memory _content = "And here you go again :p";
         Task memory _task = tasks[_id];
         _task.completed = !_task.completed;
         tasks[_id] = _task;
+        createTask(_content);
         emit TaskCompleted(_id, _task.completed);
     }
 }
