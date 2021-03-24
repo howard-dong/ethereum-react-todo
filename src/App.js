@@ -50,7 +50,7 @@ function Test() {
 
     // this.createTask = this.createTask.bind(this)
     // this.toggleCompleted = this.toggleCompleted.bind(this)
-  }
+  // }
 
   const createTask = (content) => {
     setLoading(true);
@@ -93,7 +93,7 @@ function Test() {
       </div>
     </div>
   );
-    
-  }
+};  
+  
 
 export default App;
