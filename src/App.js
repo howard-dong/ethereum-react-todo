@@ -52,19 +52,19 @@ function Test() {
     // this.toggleCompleted = this.toggleCompleted.bind(this)
   }
 
-  createTask(content) {
-    this.setState({ loading: true })
-    this.state.todoList.methods.createTask(content).send({ from: this.state.account })
+  const createTask = (content) => {
+    setLoading(true);
+    todoList.methods.createTask(content).send({ from: account })
     .once('receipt', (receipt) => {
-      this.setState({ loading: false })
+      setLoading(false)
     })
   }
 
-  toggleCompleted(taskId) {
-    this.setState({ loading: true })
-    this.state.todoList.methods.toggleCompleted(taskId).send({ from: this.state.account })
+  toggleCompleted = (taskId) => {
+    setLoading(true);
+    todoList.methods.toggleCompleted(taskId).send({ from: account })
     .once('receipt', (receipt) => {
-      this.setState({ loading: false })
+      setLoading(false);
     })
   }
 
