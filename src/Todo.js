@@ -7,7 +7,7 @@ function Todo({todo}){
             <input type = "checkbox" />
             <li
                 style = {{
-                    color: "white",
+                    color: "black",
                     textDecoration: todo.completed ? "line-through" : null
                 }}
             
