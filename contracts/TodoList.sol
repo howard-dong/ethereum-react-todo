@@ -1,4 +1,4 @@
-pragma solidity >=0.5.16;
+pragma solidity >=0.4.22 <0.9.0;
 
 contract TodoList {
     uint public taskCount = 0;
@@ -22,7 +22,7 @@ contract TodoList {
         bool completed
     );
 
-    constructor() {
+    constructor() public {
         createTask("Check out apple.com for updates");
     }
 
