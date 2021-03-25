@@ -1,30 +1,16 @@
+
 import logo from './logo.svg';
 import "./App.css";
 import React, {useState, useEffect} from "react";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
+import Web3 from 'web3'
+import { TODO_LIST_ABI, TODO_LIST_ADDRESS } from './config'
 
 const LOCAL_STORAGE_KEY = "react-todo-list-todos";
 
 function App() {
-  // return (
-  //   <div className="App">
-  //     <header className="App-header">
-  //       <img src={logo} className="App-logo" alt="logo" />
-  //       <p>
-  //         Edit <code>src/App.js</code> and save to reload.
-  //       </p>
-  //       <a
-  //         className="App-link"
-  //         href="https://reactjs.org"
-  //         target="_blank"
-  //         rel="noopener noreferrer"
-  //       >
-  //         Learn React
-  //       </a>
-  //     </header>
-  //   </div>
-  // );
+
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
@@ -59,6 +45,69 @@ function App() {
 
   function removeTodo(id){
     setTodos(todos.filter(todo=> todo.id!==id));
+  }
+
+function Test() {
+
+  useEffect(()=>{
+    loadBlockchainData()
+  },[])
+
+  const loadBlockchainData = async () => {
+    const [account, setAccount] = useState("");
+    const [todoList, setTodoList] = useState();
+    const [taskCount, setTaskCount] = useState(0);
+    const [tasks, setTasks] = useState([]);
+    const [loading, setLoading] = useState();
+
+    const web3 = new Web3(Web3.givenProvider || "http://localhost:8545")
+    const accounts = await web3.eth.getAccounts()
+    // this.setState({ account: accounts[0] })
+    setAccount(accounts[0])
+    const todoList = new web3.eth.Contract(TODO_LIST_ABI, TODO_LIST_ADDRESS)
+    // this.setState({ todoList })
+    setTodoList(todoList);
+    const taskCount = await todoList.methods.taskCount().call()
+    // this.setState({ taskCount })
+    setTaskCount(taskCount);
+    for (var i = 1; i <= taskCount; i++) {
+      const task = await todoList.methods.tasks(i).call()
+      // this.setState({
+      //   tasks: [...this.state.tasks, task]
+      // })
+      setTasks([...tasks, task])
+    }
+    // this.setState({ loading: false })
+    setLoading(false);
+  }
+
+  // constructor(props) {
+  //   super(props)
+  //   this.state = {
+  //     account: '',
+  //     taskCount: 0,
+  //     tasks: [],
+  //     loading: true
+  //   }
+
+    // this.createTask = this.createTask.bind(this)
+    // this.toggleCompleted = this.toggleCompleted.bind(this)
+}
+
+  const createTask = (content) => {
+    setLoading(true);
+    todoList.methods.createTask(content).send({ from: account })
+    .once('receipt', (receipt) => {
+      setLoading(false)
+    })
+  }
+
+  toggleCompleted = (taskId) => {
+    setLoading(true);
+    todoList.methods.toggleCompleted(taskId).send({ from: account })
+    .once('receipt', (receipt) => {
+      setLoading(false);
+    })
   }
 
   return (
@@ -98,7 +147,5 @@ function App() {
     //   </div>
     // </div>
   );
-    
-  }
-
+};
 export default App;
