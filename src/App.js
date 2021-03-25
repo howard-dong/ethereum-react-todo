@@ -101,41 +101,41 @@ function App() {
   // }
 
   return (
-    <div className = "App">
-      <header className = "App-Header">
-        <p>React Todo</p>
+    /* { this.state.loading
+              ? <div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
+              : <TodoList
+                tasks={this.state.tasks}
+                createTask={this.createTask}
+                toggleCompleted={this.toggleCompleted} />
+            } */
+
+
+
+    <div>
+      <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap py-3 shadow">
+        <a className="navbar-brand mx-auto">ETHEREUM TODOLIST</a>
+        <ul className="navbar-nav px-3">
+          <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
+            <small><a className="nav-link" href="#"><span id="account"></span></a></small>
+          </li>
+        </ul>
+      </nav>
+      {/* <div className="container-fluid">
+        <div className="row">
+          <main role="main" className="col-lg-12 d-flex justify-content-center">
+          </main>
+        </div>
+      </div> */}
+      <div className = "App">
+      <header className = "App-header">
+        {/* <p>React Todo</p> */}
         <TodoForm addTodo = {addTodo} />
         <TodoList todos = {todos}
          toggleComplete ={toggleComplete}
           removeTodo={removeTodo}/>
       </header>
     </div>
-
-
-
-    // <div>
-    //   <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap py-3 shadow">
-    //     <a className="navbar-brand mx-auto">ETHEREUM TODOLIST</a>
-    //     <ul className="navbar-nav px-3">
-    //       <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
-    //         <small><a className="nav-link" href="#"><span id="account"></span></a></small>
-    //       </li>
-    //     </ul>
-    //   </nav>
-    //   <div className="container-fluid">
-    //     <div className="row">
-    //       <main role="main" className="col-lg-12 d-flex justify-content-center">
-    //         {/* { this.state.loading
-    //           ? <div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
-    //           : <TodoList
-    //             tasks={this.state.tasks}
-    //             createTask={this.createTask}
-    //             toggleCompleted={this.toggleCompleted} />
-    //         } */}
-    //       </main>
-    //     </div>
-    //   </div>
-    // </div>
+    </div>
   );
 };
 export default App;
