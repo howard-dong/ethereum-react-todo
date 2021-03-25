@@ -1,10 +1,15 @@
 import React from "react";
+import {v4 as uuidv4} from "uuid";
 
-
-function Todo({todo, toggleComplete, removeTodo}){
+function Todo({todo, toggleComplete, removeTodo, addTodo}){
 
     function handleCheckboxClick(){
-        toggleComplete(todo.id);
+        toggleComplete(todo.id)
+        spawnNew()
+    }
+
+    function spawnNew(){
+        addTodo({ ...todo, id: uuidv4() });
     }
 
     function handleRemoveClick(){

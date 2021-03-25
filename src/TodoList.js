@@ -48,13 +48,14 @@ import Todo from "./Todo";
 //   }
 // }
 
-function TodoList({ todos, toggleComplete, removeTodo}){
+function TodoList({ todos, toggleComplete, removeTodo, addTodo}){
     return (
         <ul>
             {todos.map(todo =>(
                 <Todo key={todo.id} todo={todo}
                  toggleComplete = {toggleComplete}
                  removeTodo = {removeTodo}
+                 addTodo = {addTodo}
                  />
             ))}
         </ul>

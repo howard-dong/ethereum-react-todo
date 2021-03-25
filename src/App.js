@@ -132,7 +132,8 @@ function App() {
         <TodoForm addTodo = {addTodo} />
         <TodoList todos = {todos}
          toggleComplete ={toggleComplete}
-          removeTodo={removeTodo}/>
+          removeTodo={removeTodo}
+          addTodo = {addTodo}/>
       </header>
     </div>
     </div>
