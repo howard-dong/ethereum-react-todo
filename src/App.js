@@ -5,11 +5,30 @@ import React, {useState, useEffect} from "react";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 import Web3 from 'web3'
-import { TODO_LIST_ABI, TODO_LIST_ADDRESS } from './config'
+import TruffleContract from "truffle-contract";
+import TodoListContract from "./contracts/TodoList.json"
 
 const LOCAL_STORAGE_KEY = "react-todo-list-todos";
 
+const useConstructor = (callBack = () => {}) => {
+  const [hasBeenCalled, setHasBeenCalled] = useState(false);
+  if (hasBeenCalled) return;
+  callBack();
+  setHasBeenCalled(true);
+}
+
 function App() {
+
+  const [todoListContract, setContract] = useState({})
+
+  useConstructor(() => {
+    const todoListContract = TruffleContract(TodoListContract);
+    const web3 = window.web3;
+    const web3Provider = web3.currentProvider;
+    web3 = new Web3(web3Provider);
+    todoListContract.setProvider(web3Provider);
+    setContract(todoListContract);
+  })
 
   const [todos, setTodos] = useState([]);
     /*
@@ -17,6 +36,8 @@ function App() {
     Not needed because blockchain
     */
   useEffect(() => {
+    console.log(todoListContract);
+
     const storageTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
     if(storageTodos!=null){
       setTodos(storageTodos);
