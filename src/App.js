@@ -2,8 +2,8 @@
 import React, { Component, useState, useEffect } from 'react'
 import Web3 from 'web3'
 import './App.css'
-import { TODO_LIST_ABI, TODO_LIST_ADDRESS } from './config'
 import TodoList from './TodoList'
+import TodoListJson from './contracts/TodoList.json'
 
 function App() {
 
@@ -39,11 +39,11 @@ function App() {
 
   const LoadBlockchainData = async () => {
 
-    const web3 = new Web3(Web3.givenProvider || "http://localhost:8545")
+    const web3 = new Web3("http://localhost:7545")
     const accounts = await web3.eth.getAccounts()
     // this.setState({ account: accounts[0] })
     // this.setState({ todoList })
-    setTodoList(new web3.eth.Contract(TODO_LIST_ABI, TODO_LIST_ADDRESS))
+    setTodoList(new web3.eth.Contract(TodoListJson.abi, TodoListJson.networks[5777].address))
     // this.setState({ taskCount })
     // this.setState({ loading: false })
     setLoading(false);
