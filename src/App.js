@@ -1,11 +1,12 @@
 
-import logo from './logo.svg';
-import "./App.css";
-import React, {useState, useEffect} from "react";
-import TodoForm from "./TodoForm";
-import TodoList from "./TodoList";
+import logo from './logo.svg'
+import "./App.css"
+import React, {useState, useEffect} from "react"
+import TodoForm from "./TodoForm"
+import TodoList from "./TodoList"
+import React, { Component, useState, useEffect } from 'react'
 import Web3 from 'web3'
-import TruffleContract from "truffle-contract";
+import TruffleContract from "truffle-contract"
 import TodoListContract from "./contracts/TodoList.json"
 
 const LOCAL_STORAGE_KEY = "react-todo-list-todos";
@@ -40,7 +41,36 @@ function App() {
     if(storageTodos!=null){
       setTodos(storageTodos);
     }
-  }, []);
+  })
+
+  useEffect(()=>{
+    LoadBlockchainData()
+  })
+
+  const [account, setAccount] = useState("");
+    const [todoList, setTodoList] = useState();
+    const [taskCount, setTaskCount] = useState(0);
+    const [tasks, setTasks] = useState([]);
+    const [loading, setLoading] = useState();
+
+  const LoadBlockchainData = async () => {
+
+    const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+    const accounts = await web3.eth.getAccounts()
+    // this.setState({ account: accounts[0] })
+    setAccount(accounts[0])
+    setTodoList(new web3.eth.Contract(TODO_LIST_ABI, TODO_LIST_ADDRESS));
+    // this.setState({ todoList })
+    setTaskCount(await todoList.methods.taskCount().call());
+    // this.setState({ taskCount })
+    for (var i = 1; i <= taskCount; i++) {
+      const task = await todoList.methods.tasks(i).call()
+      // this.setState({
+      //   tasks: [...this.state.tasks, task]
+      // })
+      setTasks([...tasks, task])
+    }
+  }
 
   useEffect(()=>{
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
@@ -67,7 +97,14 @@ function App() {
 
   function removeTodo(id){
     setTodos(todos.filter(todo=> todo.id!==id));
+  const toggleCompleted = (taskId) => {
+    setLoading(true);
+    todoList.methods.toggleCompleted(taskId).send({ from: account })
+    .once('receipt', (receipt) => {
+      setLoading(false);
+    })
   }
+}
 
 
   // useEffect(()=>{
@@ -139,12 +176,6 @@ function App() {
           </li>
         </ul>
       </nav>
-      {/* <div className="container-fluid">
-        <div className="row">
-          <main role="main" className="col-lg-12 d-flex justify-content-center">
-          </main>
-        </div>
-      </div> */}
       <div className = "App">
       <header className = "App-header">
         {/* <p>React Todo</p> */}
