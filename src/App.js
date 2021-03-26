@@ -50,6 +50,7 @@ function App() {
     setTodoList(new web3.eth.Contract(TODO_LIST_ABI, TODO_LIST_ADDRESS));
     // this.setState({ todoList })
     setTaskCount(await todoList.methods.taskCount().call());
+    console.log(taskCount)
     // this.setState({ taskCount })
     for (var i = 1; i <= taskCount; i++) {
       const task = await todoList.methods.tasks(i).call()
