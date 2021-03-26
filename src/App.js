@@ -23,11 +23,9 @@ function App() {
 
   useConstructor(() => {
     const todoListContract = TruffleContract(TodoListContract);
-    const web3 = window.web3;
-    const web3Provider = web3.currentProvider;
-    web3 = new Web3(web3Provider);
-    todoListContract.setProvider(web3Provider);
-    setContract(todoListContract);
+    const web3 = new Web3(Web3.givenProvider || "http://localhost:8545")
+    // todoListContract.setProvider(web3Provider);
+    // setContract(todoListContract);
   })
 
   const [todos, setTodos] = useState([]);
@@ -120,7 +118,7 @@ function App() {
   //     setLoading(false);
   //   })
   // }
-
+ 
   return (
     /* { this.state.loading
               ? <div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
