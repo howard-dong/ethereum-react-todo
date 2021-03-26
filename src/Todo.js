@@ -22,7 +22,7 @@ function Todo({todo, toggleComplete, removeTodo, addTodo}){
             <li
                 style = {{
                     color: "white",
-                    textDecoration: todo.completed ? "line-through" : null
+                    // textDecoration: todo.completed ? "line-through" : null
                 }}
             
             >{todo.task}</li>
