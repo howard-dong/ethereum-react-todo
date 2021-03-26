@@ -34,7 +34,7 @@ function App() {
     // setContract(todoListContract);
   })
 
-  
+
 
   useEffect(() => {
     LoadBlockchainData()
@@ -82,13 +82,15 @@ function App() {
 
   function removeTodo(id) {
     setTodos(todos.filter(todo => todo.id !== id));
-    const toggleCompleted = (taskId) => {
-      setLoading(true);
-      todoList.methods.toggleCompleted(taskId).send({ from: account })
-        .once('receipt', (receipt) => {
-          setLoading(false);
-        })
-    }
+  }
+
+
+  const toggleCompleted = (taskId) => {
+    setLoading(true);
+    todoList.methods.toggleCompleted(taskId).send({ from: account })
+      .once('receipt', (receipt) => {
+        setLoading(false);
+      })
   }
 
 
