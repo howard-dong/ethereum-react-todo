@@ -1,33 +1,32 @@
-  
-import React, { Component, useState } from 'react'
+
+import React, { Component, useState, useEffect } from 'react'
 import Web3 from 'web3'
 import './App.css'
 import { TODO_LIST_ABI, TODO_LIST_ADDRESS } from './config'
 import TodoList from './TodoList'
 
-function Test() {
+function App() {
 
   useEffect(()=>{
-    loadBlockchainData()
-  },[])
+    LoadBlockchainData()
+  })
 
-  const loadBlockchainData = async () => {
-    const [account, setAccount] = useState("");
+  const [account, setAccount] = useState("");
     const [todoList, setTodoList] = useState();
     const [taskCount, setTaskCount] = useState(0);
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState();
 
-    const web3 = new Web3(Web3.givenProvider || "http://localhost:8545")
+  const LoadBlockchainData = async () => {
+
+    const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
     const accounts = await web3.eth.getAccounts()
     // this.setState({ account: accounts[0] })
     setAccount(accounts[0])
-    const todoList = new web3.eth.Contract(TODO_LIST_ABI, TODO_LIST_ADDRESS)
+    setTodoList(new web3.eth.Contract(TODO_LIST_ABI, TODO_LIST_ADDRESS));
     // this.setState({ todoList })
-    setTodoList(todoList);
-    const taskCount = await todoList.methods.taskCount().call()
+    setTaskCount(await todoList.methods.taskCount().call());
     // this.setState({ taskCount })
-    setTaskCount(taskCount);
     for (var i = 1; i <= taskCount; i++) {
       const task = await todoList.methods.tasks(i).call()
       // this.setState({
@@ -60,7 +59,7 @@ function Test() {
     })
   }
 
-  toggleCompleted = (taskId) => {
+  const toggleCompleted = (taskId) => {
     setLoading(true);
     todoList.methods.toggleCompleted(taskId).send({ from: account })
     .once('receipt', (receipt) => {
@@ -81,12 +80,12 @@ function Test() {
       <div className="container-fluid">
         <div className="row">
           <main role="main" className="col-lg-12 d-flex justify-content-center">
-            {/* { this.state.loading
+            {/* { setloading()
               ? <div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
               : <TodoList
-                tasks={this.state.tasks}
-                createTask={this.createTask}
-                toggleCompleted={this.toggleCompleted} />
+                tasks={tasks}
+                createTask={createTask}
+                toggleCompleted={toggleCompleted} />
             } */}
           </main>
         </div>
