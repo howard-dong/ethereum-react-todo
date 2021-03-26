@@ -1,17 +1,17 @@
 
 import logo from './logo.svg'
 import "./App.css"
-import React, {useState, useEffect} from "react"
+import React, { useState, useEffect } from "react"
 import TodoForm from "./TodoForm"
 import TodoList from "./TodoList"
-import React, { Component, useState, useEffect } from 'react'
 import Web3 from 'web3'
 import TruffleContract from "truffle-contract"
 import TodoListContract from "./contracts/TodoList.json"
+import { TODO_LIST_ADDRESS, TODO_LIST_ABI } from './config'
 
 const LOCAL_STORAGE_KEY = "react-todo-list-todos";
 
-const useConstructor = (callBack = () => {}) => {
+const useConstructor = (callBack = () => { }) => {
   const [hasBeenCalled, setHasBeenCalled] = useState(false);
   if (hasBeenCalled) return;
   callBack();
@@ -19,8 +19,13 @@ const useConstructor = (callBack = () => {}) => {
 }
 
 function App() {
-
+  const [account, setAccount] = useState("");
+  const [todoList, setTodoList] = useState();
+  const [taskCount, setTaskCount] = useState(0);
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState();
   const [todoListContract, setContract] = useState({})
+  const [todos, setTodos] = useState([]);
 
   useConstructor(() => {
     const todoListContract = TruffleContract(TodoListContract);
@@ -29,29 +34,12 @@ function App() {
     // setContract(todoListContract);
   })
 
-  const [todos, setTodos] = useState([]);
-    /*
-    Stores todoList in local storage
-    Not needed because blockchain
-    */
+  
+
   useEffect(() => {
-    console.log(todoListContract);
-
-    const storageTodos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-    if(storageTodos!=null){
-      setTodos(storageTodos);
-    }
-  })
-
-  useEffect(()=>{
     LoadBlockchainData()
-  })
+  }, [])
 
-  const [account, setAccount] = useState("");
-    const [todoList, setTodoList] = useState();
-    const [taskCount, setTaskCount] = useState(0);
-    const [tasks, setTasks] = useState([]);
-    const [loading, setLoading] = useState();
 
   const LoadBlockchainData = async () => {
 
@@ -72,39 +60,36 @@ function App() {
     }
   }
 
-  useEffect(()=>{
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
-  }, [todos]);
 
-  
-  function addTodo(todo){
+
+  function addTodo(todo) {
     setTodos([todo, ...todos]);
   }
 
-  function toggleComplete(id){
+  function toggleComplete(id) {
     setTodos(
-      todos.map(todo=>{
-          if(todo.id == id){
-            return{
-             ...todo,
-             completed: !todo.completed
-           };
-         }
-         return todo;
+      todos.map(todo => {
+        if (todo.id == id) {
+          return {
+            ...todo,
+            completed: !todo.completed
+          };
+        }
+        return todo;
       })
     )
   }
 
-  function removeTodo(id){
-    setTodos(todos.filter(todo=> todo.id!==id));
-  const toggleCompleted = (taskId) => {
-    setLoading(true);
-    todoList.methods.toggleCompleted(taskId).send({ from: account })
-    .once('receipt', (receipt) => {
-      setLoading(false);
-    })
+  function removeTodo(id) {
+    setTodos(todos.filter(todo => todo.id !== id));
+    const toggleCompleted = (taskId) => {
+      setLoading(true);
+      todoList.methods.toggleCompleted(taskId).send({ from: account })
+        .once('receipt', (receipt) => {
+          setLoading(false);
+        })
+    }
   }
-}
 
 
   // useEffect(()=>{
@@ -155,7 +140,7 @@ function App() {
   //     setLoading(false);
   //   })
   // }
- 
+
   return (
     /* { this.state.loading
               ? <div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
@@ -176,16 +161,15 @@ function App() {
           </li>
         </ul>
       </nav>
-      <div className = "App">
-      <header className = "App-header">
-        {/* <p>React Todo</p> */}
-        <TodoForm addTodo = {addTodo} />
-        <TodoList todos = {todos}
-         toggleComplete ={toggleComplete}
-          removeTodo={removeTodo}
-          addTodo = {addTodo}/>
-      </header>
-    </div>
+      <div className="App">
+        <header className="App-header">
+          <TodoForm addTodo={addTodo} />
+          <TodoList todos={todos}
+            toggleComplete={toggleComplete}
+            removeTodo={removeTodo}
+            addTodo={addTodo} />
+        </header>
+      </div>
     </div>
   );
 };
