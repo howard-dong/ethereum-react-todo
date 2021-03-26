@@ -1,4 +1,3 @@
-
 import React, { Component, useState, useEffect } from 'react'
 import Web3 from 'web3'
 import './App.css'
@@ -26,6 +25,7 @@ function App() {
     if (todoList) {
       const count = await todoList.methods.taskCount().call();
       setTaskCount(count);
+      console.log(taskCount);
       for (var i = 1; i <= taskCount; i++) {
         const task = await todoList.methods.tasks(i).call()
         // this.setState({
@@ -36,7 +36,6 @@ function App() {
     }
     console.log(todoList);
   };
-
   const LoadBlockchainData = async () => {
 
     const web3 = new Web3("http://localhost:7545")
