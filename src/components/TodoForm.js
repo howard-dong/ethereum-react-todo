@@ -13,7 +13,7 @@ function TodoForm({createTask, loadTasks}){
     function handleSubmit(e) {
         e.preventDefault(); 
         if (todo.content.trim()) {
-          createTask({ ...todo, id:uuidv4});
+          createTask({ ...todo.content});
         }
         loadTasks()
       }

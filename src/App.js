@@ -31,6 +31,7 @@ function App() {
 
   useEffect(() => {
     loadTasks();
+    console.log("effect")
   }, [todoList])
 
 
@@ -78,6 +79,7 @@ function App() {
   useConstructor(() => {
     LoadBlockchainData()
     loadTasks()
+    console.log("constructor")
   })
 
 
