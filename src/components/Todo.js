@@ -1,15 +1,10 @@
 import React from "react";
 import {v4 as uuidv4} from "uuid";
 
-function Todo({todo, toggleComplete, removeTodo, addTodo}){
+function Todo({todo, toggleComplete, removeTodo}){
 
     function handleCheckboxClick(){
         toggleComplete(todo.id)
-        spawnNew()
-    }
-
-    function spawnNew(){
-        addTodo({ ...todo, id: uuidv4() });
     }
 
     function handleRemoveClick(){
@@ -25,7 +20,7 @@ function Todo({todo, toggleComplete, removeTodo, addTodo}){
                     // textDecoration: todo.completed ? "line-through" : null
                 }}
             
-            >{todo.task}</li>
+            >{todo.content}</li>
             <button onClick= {handleRemoveClick}>X</button>
         </div>
     )
