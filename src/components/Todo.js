@@ -7,9 +7,6 @@ function Todo({todo, toggleComplete, removeTodo}){
         toggleComplete(todo.id)
     }
 
-    function handleRemoveClick(){
-        removeTodo(todo.id);
-    }
 
     return (
         <div style={{display: "flex"}}>
@@ -21,7 +18,6 @@ function Todo({todo, toggleComplete, removeTodo}){
                 }}
             
             >{todo.content}</li>
-            <button onClick= {handleRemoveClick}>X</button>
         </div>
     )
 }
