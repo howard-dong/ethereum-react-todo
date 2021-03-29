@@ -19,47 +19,48 @@ const useConstructor = (callBack = () => { }) => {
 
 function App() {
   const [todos, setTodos] = useState([]);
-  // const [account, setAccount] = useState("");
-  // const [todoList, setTodoList] = useState();
-  // const [taskCount, setTaskCount] = useState(0);
-  // const [tasks, setTasks] = useState([]);
-  // const [loading, setLoading] = useState();
+  const [account, setAccount] = useState("");
+  const [todoList, setTodoList] = useState();
+  const [taskCount, setTaskCount] = useState(0);
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState();
 
-  // useEffect(() => {
-  //   LoadBlockchainData()
-  // }, [])
+  useEffect(() => {
+    LoadBlockchainData()
+  }, [])
 
-  // useEffect(() => {
-  //   loadTasks();
-  // }, [todoList])
+  useEffect(() => {
+    loadTasks();
+  }, [todoList])
 
 
-  // const loadTasks = async () => {
-  //   if (todoList) {
-  //     const count = await todoList.methods.taskCount().call();
-  //     setTaskCount(count);
-  //     console.log(taskCount);
-  //     for (var i = 1; i <= taskCount; i++) {
-  //       const task = await todoList.methods.tasks(i).call()
-  //       // this.setState({
-  //       //   tasks: [...this.state.tasks, task]
-  //       // })
-  //       setTasks([...tasks, task])
-  //     }
-  //   }
-  //   console.log(todoList);
-  // };
-  // const LoadBlockchainData = async () => {
+  const loadTasks = async () => {
+    if (todoList) {
+      const count = await todoList.methods.taskCount().call();
+      setTaskCount(count);
+      console.log(taskCount);
+      for (var i = 1; i <= taskCount; i++) {
+        const task = await todoList.methods.tasks(i).call()
+        // this.setState({
+        //   tasks: [...this.state.tasks, task]
+        // })
+        setTasks([...tasks, task])
+      }
+    }
+    console.log(todoList);
+  };
 
-  //   const web3 = new Web3("http://localhost:7545")
-  //   const accounts = await web3.eth.getAccounts()
-  //   // this.setState({ account: accounts[0] })
-  //   // this.setState({ todoList })
-  //   setTodoList(new web3.eth.Contract(TodoListJson.abi, TodoListJson.networks[5777].address))
-  //   // this.setState({ taskCount })
-  //   // this.setState({ loading: false })
-  //   setLoading(false);
-  // }
+  const LoadBlockchainData = async () => {
+
+    const web3 = new Web3("http://localhost:7545")
+    const accounts = await web3.eth.getAccounts()
+    // this.setState({ account: accounts[0] })
+    // this.setState({ todoList })
+    setTodoList(new web3.eth.Contract(TodoListJson.abi, TodoListJson.networks[5777].address))
+    // this.setState({ taskCount })
+    // this.setState({ loading: false })
+    setLoading(false);
+  }
 
 
 
@@ -81,26 +82,26 @@ function App() {
     )
   }
 
-    // const createTask = (content) => {
-    //   setLoading(true);
-    //   todoList.methods.createTask(content).send({ from: account })
-    //     .once('receipt', (receipt) => {
-    //       setLoading(false)
-    //     })
-    // }
+    const createTask = (content) => {
+      setLoading(true);
+      todoList.methods.createTask(content).send({ from: account })
+        .once('receipt', (receipt) => {
+          setLoading(false)
+        })
+    }
 
     function removeTodo(id) {
       setTodos(todos.filter(todo => todo.id !== id));
     }
 
 
-    // const toggleCompleted = (taskId) => {
-    //   setLoading(true);
-    //   todoList.methods.toggleCompleted(taskId).send({ from: account })
-    //     .once('receipt', (receipt) => {
-    //       setLoading(false);
-    //     })
-    // }
+    const toggleCompleted = (taskId) => {
+      setLoading(true);
+      todoList.methods.toggleCompleted(taskId).send({ from: account })
+        .once('receipt', (receipt) => {
+          setLoading(false);
+        })
+    }
 
 
   
