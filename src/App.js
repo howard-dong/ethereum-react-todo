@@ -49,7 +49,7 @@ function App() {
       const count = await todoList.methods.taskCount().call();
       setTaskCount(count);
       console.log(taskCount);
-      for (var i = 1; i <= taskCount; i++) {
+      for (var i = 1; i <= count; i++) {
         const todo = await todoList.methods.tasks(i).call()
         setTodos([...todos, todo])
         console.log(todo)
